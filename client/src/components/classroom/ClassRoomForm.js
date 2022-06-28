@@ -48,8 +48,8 @@ const ClassRoomForm = (props) => {
         props.updateClassRoom(props.currentId, values, () => {
           toast.success("updated successfully");
         });
+      resetForm();
     }
-    resetForm();
   };
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const ClassRoomForm = (props) => {
       <Row>
         <Col md={6}>
           <Button type="submit" color="primary" block>
-            Submit
+            {props.currentId === 0 ? "Insert" : "Update"}
           </Button>
         </Col>
         <Col md={6}>

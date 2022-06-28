@@ -17,5 +17,7 @@ namespace webapi.Data
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<AllocationStd> AllocationStds { get; set; }
+        public DbSet<AllocationStdDetail> AllocationStdDetails { get; set; }
     }
 }

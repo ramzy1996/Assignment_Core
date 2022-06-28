@@ -39,6 +39,11 @@ const NavBar = () => {
                 <Link to={"/subjects"}>Subjects</Link>
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink>
+                <Link to={"/stdallocation"}>Std Allocation</Link>
+              </NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

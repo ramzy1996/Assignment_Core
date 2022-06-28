@@ -9,7 +9,7 @@ import {
   Button,
   FormFeedback,
 } from "reactstrap";
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 import { connect } from "react-redux";
 import * as stdActions from "../../action/students";
 import * as clsActions from "../../action/classroom";
@@ -90,8 +90,8 @@ const StudentForm = (props) => {
         props.updateStudent(props.currentId, values, () => {
           toast.success("updated successfully");
         });
+      resetForm();
     }
-    resetForm();
   };
 
   useEffect(() => {
@@ -122,6 +122,12 @@ const StudentForm = (props) => {
     calculate_age(val);
     console.log(val);
   };
+
+  const CustomDatePicker = forwardRef(({ value, onClick }, ref) => (
+    <button className="" onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
 
   return (
     <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -212,8 +218,10 @@ const StudentForm = (props) => {
               name="dateOfBirth"
               placeholder="DateOfBirth"
               value={values.dateOfBirth}
-              onChange={handleInputChangetoDOB}
-              onBlur={handleInputBlur}
+              onChange={(e) => {
+                handleInputBlur(e);
+                handleInputChangetoDOB(e);
+              }}
               type="date"
               {...(errors.dateOfBirth && { invalid: true })}
             />
@@ -274,7 +282,7 @@ const StudentForm = (props) => {
       <Row>
         <Col md={6}>
           <Button type="submit" color="primary" block>
-            Submit
+            {props.currentId === 0 ? "Insert" : "Update"}
           </Button>
         </Col>
         <Col md={6}>

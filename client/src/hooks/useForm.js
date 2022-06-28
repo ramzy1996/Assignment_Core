@@ -14,6 +14,18 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
     validate(fieldValue);
   };
 
+  //   student allocation
+
+  //   const handleInputChangeStd = (e) => {
+  //
+  const handleInputChangetoNumberStd = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: parseInt(value, 10),
+    });
+  };
+
   const handleInputChangetoDOB = (e) => {
     const { name, value } = e.target;
     const fieldValue = { [name]: value };
@@ -50,6 +62,10 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
     setErrors({});
     setCurrentId(0);
   };
+  const resetFormControls = () => {
+    setValues(initialFieldValues());
+    setErrors({});
+  };
   return {
     values,
     setValues,
@@ -59,7 +75,9 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
     handleInputChangetoNumber,
     handleInputChangetoNumberAge,
     handleInputChangetoDOB,
+    handleInputChangetoNumberStd,
     resetForm,
+    resetFormControls,
   };
 };
 
