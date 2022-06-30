@@ -10,8 +10,8 @@ using webapi.Data;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220627205549_allocationstd")]
-    partial class allocationstd
+    [Migration("20220628204134_initial0")]
+    partial class initial0
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,7 @@ namespace webapi.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("allocationStdId")
+                    b.Property<long>("allocationStdId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("subjectId")
@@ -58,6 +58,48 @@ namespace webapi.Migrations
                     b.HasIndex("subjectId");
 
                     b.ToTable("AllocationStdDetails");
+                });
+
+            modelBuilder.Entity("webapi.Models.AllocationSubject", b =>
+                {
+                    b.Property<long>("allocationSubId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("teacherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("allocationSubId");
+
+                    b.HasIndex("teacherId");
+
+                    b.ToTable("AllocationSubjects");
+                });
+
+            modelBuilder.Entity("webapi.Models.AllocationSubjectDetail", b =>
+                {
+                    b.Property<long>("allocationSubDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("AllocationSubjectallocationSubId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("allocationSubId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("subjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("allocationSubDetailId");
+
+                    b.HasIndex("AllocationSubjectallocationSubId");
+
+                    b.HasIndex("subjectId");
+
+                    b.ToTable("AllocationSubjectDetails");
                 });
 
             modelBuilder.Entity("webapi.Models.Classroom", b =>
@@ -165,7 +207,31 @@ namespace webapi.Migrations
                 {
                     b.HasOne("webapi.Models.AllocationStd", null)
                         .WithMany("AllocationStdDetails")
-                        .HasForeignKey("allocationStdId");
+                        .HasForeignKey("allocationStdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("subjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("webapi.Models.AllocationSubject", b =>
+                {
+                    b.HasOne("webapi.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("teacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("webapi.Models.AllocationSubjectDetail", b =>
+                {
+                    b.HasOne("webapi.Models.AllocationSubject", null)
+                        .WithMany("AllocationSubjectDetail")
+                        .HasForeignKey("AllocationSubjectallocationSubId");
 
                     b.HasOne("webapi.Models.Subject", "Subject")
                         .WithMany()

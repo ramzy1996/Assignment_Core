@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import * as stdActions from "../../action/students";
+import * as tchActions from "../../action/teachers";
 
 import {
   Form,
@@ -15,17 +15,17 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { createAPIEndpoint } from "../../api";
+import { createAPIEndpoint, ENDPIONTS } from "../../api";
 import { toast } from "react-toastify";
 import AllocationList from "./AllocationList";
 
-const StdAllocationForm = (props) => {
+const TchAllocationForm = (props) => {
   const {
     values,
     setValues,
     errors,
     setErrors,
-    handleInputChangetoNumberStd,
+    handleInputChangetoNumberTch,
     resetFormControls,
   } = props;
 
@@ -35,8 +35,8 @@ const StdAllocationForm = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await props.fetchAllStudentsStart();
-      await props.fetchAllStudents();
+      await props.fetchAllTeachersStart();
+      await props.fetchAllTeachers();
     };
     fetchData();
   }, []);
@@ -45,12 +45,12 @@ const StdAllocationForm = (props) => {
     setValues({
       ...values,
     });
-  }, [JSON.stringify(values.allocationStdDetails)]);
+  }, [JSON.stringify(values.allocationSubDetails)]);
 
   useEffect(() => {
     if (currentId === 0) resetFormControls();
     else {
-      createAPIEndpoint()
+      createAPIEndpoint(ENDPIONTS.ALLOCATION_SUBJECT)
         .fetchById(currentId)
         .then((res) => {
           setValues(res.data);
@@ -60,24 +60,12 @@ const StdAllocationForm = (props) => {
     }
   }, [currentId]);
 
-  //   validate form
-  //   const validate = (fieldValues = values) => {
-  //     let temp = { ...errors };
-  //     if ("studentId" in fieldValues) {
-  //       temp.studentId = fieldValues.studentId ? "" : "This field is required";
-  //     }
-  //     setErrors({
-  //       ...temp,
-  //     });
-  //     if (fieldValues === values) {
-  //       return Object.values(temp).every((x) => x === "");
-  //     }
-  //   };
-
   const validateForm = () => {
     let temp = { ...errors };
-    temp.studentId = values.studentId !== 0 ? "" : "This field is required.";
+    temp.teacherId = values.teacherId !== 0 ? "" : "This field is required.";
     setErrors({ ...temp });
+    temp.allocationSubDetails =
+      values.allocationSubDetails.length !== 0 ? "" : "This field is required.";
     return Object.values(temp).every((x) => x === "");
   };
 
@@ -91,17 +79,18 @@ const StdAllocationForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      if (values.allocationStdId === 0) {
-        createAPIEndpoint()
+      if (values.allocationSubId === 0) {
+        createAPIEndpoint(ENDPIONTS.ALLOCATION_SUBJECT)
           .create(values)
           .then((res) => {
             resetFormControls();
+            console.log(values);
             toast.success("inserted successfully");
           })
           .catch((err) => console.log(err));
       } else {
-        createAPIEndpoint()
-          .update(values.allocationStdId, values)
+        createAPIEndpoint(ENDPIONTS.ALLOCATION_SUBJECT)
+          .update(values.allocationSubId, values)
           .then((res) => {
             setCurrentId(0);
             toast.success("updated successfully");
@@ -117,35 +106,35 @@ const StdAllocationForm = (props) => {
         <Row>
           <Col md={12}>
             <FormGroup>
-              <Label for="studentId">Students</Label>
+              <Label for="teacherId">Teachers</Label>
               <Input
-                id="studentId"
-                name="studentId"
-                value={values.studentId}
-                onChange={handleInputChangetoNumberStd}
+                id="teacherId"
+                name="teacherId"
+                value={values.teacherId}
+                onChange={handleInputChangetoNumberTch}
                 type="select"
-                {...(errors.studentId && { invalid: true })}
+                {...(errors.teacherId && { invalid: true })}
               >
-                {props.studentsListStart ? (
+                {props.teachersListStart ? (
                   <option value="" disabled>
                     Loading...
                   </option>
                 ) : (
                   <option value="" disabled>
-                    Select A Student
+                    Select A Teacher
                   </option>
                 )}
 
-                {props.studentsList.map((data, index) => {
+                {props.teachersList.map((data, index) => {
                   return (
-                    <option value={data.studentId} key={index}>
+                    <option value={data.teacherId} key={index}>
                       {data.firstName}
                     </option>
                   );
                 })}
               </Input>
-              {errors.studentId && (
-                <FormFeedback>{errors.studentId}</FormFeedback>
+              {errors.teacherId && (
+                <FormFeedback>{errors.teacherId}</FormFeedback>
               )}
             </FormGroup>
           </Col>
@@ -204,13 +193,13 @@ const StdAllocationForm = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  studentsList: state.std.stdlist,
-  studentsListStart: state.std.stdloading,
+  teachersList: state.tch.tchlist,
+  teachersListStart: state.tch.tchloading,
 });
 
 const mapActionToProps = {
-  fetchAllStudentsStart: stdActions.ftechAllStart,
-  fetchAllStudents: stdActions.ftechAll,
+  fetchAllTeachersStart: tchActions.ftechAllStart,
+  fetchAllTeachers: tchActions.ftechAll,
 };
 
-export default connect(mapStateToProps, mapActionToProps)(StdAllocationForm);
+export default connect(mapStateToProps, mapActionToProps)(TchAllocationForm);

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardText } from "reactstrap";
+import { Table } from "reactstrap";
 import api from "../../api";
 
 const AddSubject = (props) => {
   const { values, setValues } = props;
-  let subjects = values.allocationStdDetails;
+  let subjects = values.allocationSubDetails;
   const [sub, setSub] = useState([]);
   const [searchList, setSearchList] = useState([]);
   useEffect(() => {
@@ -28,35 +28,34 @@ const AddSubject = (props) => {
 
   const addSubject = (subject) => {
     let x = {
-      allocationStdId: values.allocationStdId,
-      allocationStdDetailId: 0,
+      allocationSubId: values.allocationSubId,
+      allocationSubDetailId: 0,
       subjectId: subject.subjectId,
       subjectName: subject.subjectName,
     };
     setValues({
       ...values,
-      allocationStdDetails: [...values.allocationStdDetails, x],
+      allocationSubDetails: [...values.allocationSubDetails, x],
     });
   };
 
   return (
-    <Card>
-      {searchList.map((item, idx) => {
-        console.log(item);
-        return (
-          <>
-            <CardBody
+    <Table hover>
+      <tbody>
+        {searchList.map((item, idx) => {
+          console.log(item);
+          return (
+            <tr
               style={{ cursor: "pointer" }}
               key={idx}
               onClick={(e) => addSubject(item)}
             >
-              <CardText>{item.subjectName}</CardText>
-            </CardBody>
-            <hr />
-          </>
-        );
-      })}
-    </Card>
+              <th>{item.subjectName}</th>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
   );
 };
 

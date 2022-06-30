@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Data;
 
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220628210142_initial10")]
+    partial class initial10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +76,7 @@ namespace webapi.Migrations
                     b.ToTable("AllocationSubs");
                 });
 
-            modelBuilder.Entity("webapi.Models.AllocationSubDetail", b =>
+            modelBuilder.Entity("webapi.Models.AllocationSubjectDetail", b =>
                 {
                     b.Property<long>("allocationSubDetailId")
                         .ValueGeneratedOnAdd()
@@ -93,7 +95,7 @@ namespace webapi.Migrations
 
                     b.HasIndex("subjectId");
 
-                    b.ToTable("AllocationSubDetails");
+                    b.ToTable("AllocationSubjectDetails");
                 });
 
             modelBuilder.Entity("webapi.Models.Classroom", b =>
@@ -221,10 +223,10 @@ namespace webapi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("webapi.Models.AllocationSubDetail", b =>
+            modelBuilder.Entity("webapi.Models.AllocationSubjectDetail", b =>
                 {
                     b.HasOne("webapi.Models.AllocationSub", null)
-                        .WithMany("AllocationSubDetails")
+                        .WithMany("AllocationSubjectDetail")
                         .HasForeignKey("allocationSubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

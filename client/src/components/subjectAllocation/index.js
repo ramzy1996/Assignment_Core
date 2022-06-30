@@ -1,16 +1,16 @@
 import useForm from "../../hooks/useForm";
-import { Col, Container, FormGroup, Label, Row } from "reactstrap";
-import StdAllocationForm from "./StdAllocationForm";
+import { Col, Container, Row } from "reactstrap";
+import TchAllocationForm from "./TchAllocationForm";
 import AddSubject from "./AddSubject";
 import AddedSubject from "./AddedSubject";
 
 const initialFieldValues = () => ({
-  allocationStdId: 0,
-  studentId: "",
+  allocationSubId: 0,
+  teacherId: "",
   deletedItemIds: "",
-  allocationStdDetails: [],
+  allocationSubDetails: [],
 });
-const StudentAllocation = () => {
+const SubjectAllocation = () => {
   const {
     values,
     setValues,
@@ -19,11 +19,11 @@ const StudentAllocation = () => {
     handleInputChange,
     resetFormControls,
     handleInputChangetoNumber,
-    handleInputChangetoNumberStd,
+    handleInputChangetoNumberTch,
   } = useForm(initialFieldValues);
   return (
     <Container className="bg-light border my-3">
-      <StdAllocationForm
+      <TchAllocationForm
         {...{
           values,
           setValues,
@@ -32,7 +32,7 @@ const StudentAllocation = () => {
           handleInputChange,
           resetFormControls,
           handleInputChangetoNumber,
-          handleInputChangetoNumberStd,
+          handleInputChangetoNumberTch,
         }}
       />
       <br />
@@ -58,4 +58,4 @@ const StudentAllocation = () => {
   );
 };
 
-export default StudentAllocation;
+export default SubjectAllocation;

@@ -40,9 +40,13 @@ const Api = {
     };
   },
 };
+export const ENDPIONTS = {
+  //   STDALLOCATION: "StudentAllocation",
+  ALLOCATION_SUBJECT: "AllocationSubject",
+};
 
-export const createAPIEndpoint = () => {
-  let url = baseUrl + "StudentAllocation/";
+export const createAPIEndpoint = (endpoints) => {
+  let url = baseUrl + endpoints + "/";
   return {
     fetchAll: () => axios.get(url),
     fetchById: (id) => axios.get(url + id),

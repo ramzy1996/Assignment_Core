@@ -34,7 +34,7 @@ namespace webapi.Controllers
         {
             var allocationStdDetails = await (from std in _context.Set<AllocationStd>()
                                       join detail in _context.Set<AllocationStdDetail>()
-                                      on std.allocationStdId equals detail.allocationStdDetailId
+                                      on std.allocationStdId equals detail.allocationStdId
                                       join sub in _context.Set<Subject>()
                                       on detail.subjectId equals sub.subjectId
                                       where std.allocationStdId == id
@@ -46,6 +46,7 @@ namespace webapi.Controllers
                                           detail.subjectId,
                                           sub.subjectName
                                       }).ToListAsync();
+
             var allocationStd = await (from a in _context.Set<AllocationStd>()
                                        where a.allocationStdId == id
 
@@ -53,7 +54,7 @@ namespace webapi.Controllers
                                        {
                                            a.allocationStdId,
                                            a.studentId,
-                                           deletedOrderItemIds = "",
+                                           DeletedItemIds = "",
                                            allocationStdDetails = allocationStdDetails
                                        }).FirstOrDefaultAsync();
 

@@ -18,7 +18,7 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
 
   //   const handleInputChangeStd = (e) => {
   //
-  const handleInputChangetoNumberStd = (e) => {
+  const handleInputChangetoNumberTch = (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -75,7 +75,7 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
     handleInputChangetoNumber,
     handleInputChangetoNumberAge,
     handleInputChangetoDOB,
-    handleInputChangetoNumberStd,
+    handleInputChangetoNumberTch,
     resetForm,
     resetFormControls,
   };

@@ -41,7 +41,7 @@ const NavBar = () => {
             </NavItem>
             <NavItem>
               <NavLink>
-                <Link to={"/stdallocation"}>Std Allocation</Link>
+                <Link to={"/suballocation"}>Subject Allocation</Link>
               </NavLink>
             </NavItem>
           </Nav>

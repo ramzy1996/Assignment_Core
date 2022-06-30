@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { Button, ButtonGroup, Table } from "reactstrap";
-import { createAPIEndpoint } from "../../api";
+import { createAPIEndpoint, ENDPIONTS } from "../../api";
 
 const AllocationList = (props) => {
   const { setCurrentId, setAllocationListVisibility, resetFormControls } =
@@ -11,7 +11,7 @@ const AllocationList = (props) => {
   const [allocationList, setAllocationList] = useState([]);
 
   useEffect(() => {
-    createAPIEndpoint()
+    createAPIEndpoint(ENDPIONTS.ALLOCATION_SUBJECT)
       .fetchAll()
       .then((res) => {
         setAllocationList(res.data);
@@ -26,7 +26,7 @@ const AllocationList = (props) => {
 
   const deleteList = (id) => {
     if (window.confirm("Are you sure to delete this record?")) {
-      createAPIEndpoint()
+      createAPIEndpoint(ENDPIONTS.ALLOCATION_SUBJECT)
         .delete(id)
         .then((res) => {
           setAllocationListVisibility(false);
@@ -43,7 +43,7 @@ const AllocationList = (props) => {
       <thead>
         <tr>
           <th>#</th>
-          <th>Student Name</th>
+          <th>Teacher Name</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -53,7 +53,7 @@ const AllocationList = (props) => {
           return (
             <tr key={idx}>
               <th scope="row">{idx}</th>
-              <td>{item.student.firstName}</td>
+              <td>{item.teacher.firstName}</td>
               <td>
                 <ButtonGroup>
                   <Button
@@ -61,7 +61,7 @@ const AllocationList = (props) => {
                     outline
                     size=""
                     onClick={(e) => {
-                      showForUpdate(item.allocationStdId);
+                      showForUpdate(item.allocationSubId);
                     }}
                   >
                     <HiOutlinePencilAlt />
@@ -71,7 +71,7 @@ const AllocationList = (props) => {
                     outline
                     size=""
                     onClick={(e) => {
-                      deleteList(item.allocationStdId);
+                      deleteList(item.allocationSubId);
                     }}
                   >
                     <HiOutlineTrash />

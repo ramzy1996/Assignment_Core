@@ -2,11 +2,11 @@
 
 namespace webapi.Models
 {
-    public class AllocationStdDetail
+    public class AllocationSubDetail
     {
         [Key]
-        public long allocationStdDetailId { get; set; }
-        public long allocationStdId { get; set; }
+        public long allocationSubDetailId { get; set; }
+        public long allocationSubId { get; set; }
         public int subjectId { get; set; }
         public Subject Subject { get; set; }
     }
